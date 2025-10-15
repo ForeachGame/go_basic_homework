@@ -1,8 +1,8 @@
 package main
 
 func main() {
-	const UDS = 1
+	const USD = 1
 	const EUR = 0.9
 	const RUB = 80
-	const eurToRub = EUR * RUB
+	const eurToRub = RUB / EUR
 }
