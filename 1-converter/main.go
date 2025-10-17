@@ -15,12 +15,13 @@ func showResult(result float64) {
 	fmt.Printf("Результат: %.2f\n", result)
 }
 
-func getCurrency() map[string]float64 {
-	return map[string]float64{
+func getCurrency() *map[string]float64 {
+	var currency = map[string]float64{
 		"USD": 1,
 		"EUR": 0.9,
 		"RUB": 80,
 	}
+	return &currency
 }
 
 func getCurrencyListString(currencyNames *[]string) string {
@@ -56,8 +57,7 @@ func filteredCurrencyList(currencyInput ...string) []string {
 
 func getAllCurrencyName() []string {
 	var result []string
-	currencies := getCurrency()
-	for key := range currencies {
+	for key := range *getCurrency() {
 		result = append(result, key)
 	}
 	return result
@@ -135,7 +135,7 @@ func getResult() float64 {
 
 func converterCalc(initialCurrency string, targetCurrency string, value float64) float64 {
 	currencies := getCurrency()
-	var quantity float64 = currencies[targetCurrency] / currencies[initialCurrency]
+	var quantity float64 = (*currencies)[targetCurrency] / (*currencies)[initialCurrency]
 	return quantity * value
 }
 
