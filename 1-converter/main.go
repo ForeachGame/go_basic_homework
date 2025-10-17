@@ -23,9 +23,9 @@ func getCurrency() map[string]float64 {
 	}
 }
 
-func getCurrencyListString(currencyNames []string) string {
+func getCurrencyListString(currencyNames *[]string) string {
 	var result string
-	for _, currencyName := range currencyNames {
+	for _, currencyName := range *currencyNames {
 		if len(result) == 0 {
 			result = currencyName
 		} else {
@@ -63,8 +63,8 @@ func getAllCurrencyName() []string {
 	return result
 }
 
-func checkCurrency(currency string, currencies []string) (bool, error) {
-	for _, currencyName := range currencies {
+func checkCurrency(currency string, currencies *[]string) (bool, error) {
+	for _, currencyName := range *currencies {
 		if currencyName == currency {
 			return true, nil
 		}
@@ -84,14 +84,14 @@ func getResult() float64 {
 	var value float64
 
 	currencies := filteredCurrencyList()
-	currenciesString := getCurrencyListString(currencies)
+	currenciesString := getCurrencyListString(&currencies)
 
 	for step <= 2 {
 		if step == 0 {
 			fmt.Printf("Выбор исходной валюты: %v\n", currenciesString)
 			initialCurrency = getUserData[string]()
 
-			_, err := checkCurrency(initialCurrency, currencies)
+			_, err := checkCurrency(initialCurrency, &currencies)
 
 			if err != nil {
 				fmt.Println(err)
@@ -115,12 +115,12 @@ func getResult() float64 {
 
 		if step == 2 {
 			currencies = filteredCurrencyList(initialCurrency)
-			currenciesString = getCurrencyListString(currencies)
+			currenciesString = getCurrencyListString(&currencies)
 
 			fmt.Printf("Выбор целевой валюты: %v\n", currenciesString)
 			targetCurrency = getUserData[string]()
 
-			_, err := checkCurrency(targetCurrency, currencies)
+			_, err := checkCurrency(targetCurrency, &currencies)
 
 			if err != nil {
 				fmt.Println(err)
